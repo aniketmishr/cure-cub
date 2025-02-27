@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+        val audioPlayerViewModel = ViewModelProvider(this)[AudioPlayerViewModel::class.java]
         setContent {
             MHChatbotTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding->
@@ -40,6 +41,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Chat.route) {
                             ChatPage(Modifier, chatViewModel)
+                        }
+                        composable(route = Screen.AudioScreen.route) {
+                            RelaxingAudiosScreen(onBackClick = {}, audioPlayerViewModel)
                         }
 
                     }

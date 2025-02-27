@@ -30,7 +30,7 @@ After having enough chat with them (decide it yourself) , take them to the medit
 
 Category 3: 
 Those who are highly depressed. 
-Take them them to a professional dector. To take them to doctor , simply output this token: |doctor|
+Take them them to a professional doctor. To take them to doctor , simply output this token: |doctor|
 
 ----------------
 Now following is the chat with patient

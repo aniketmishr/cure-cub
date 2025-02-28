@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.generativeai)
     //navigation
     implementation(libs.androidx.navigation.compose)
+    //lottie
+    implementation(libs.lottie.compose)
+    //datastore
+    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

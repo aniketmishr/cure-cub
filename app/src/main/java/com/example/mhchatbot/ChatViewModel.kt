@@ -1,9 +1,11 @@
 package com.example.mhchatbot
 
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
@@ -49,6 +51,7 @@ sealed class RESULT(val stage: String)
 }
 
 class ChatViewModel: ViewModel() {
+
     val messageList by lazy {
         mutableStateListOf<MessageModel>()
     }

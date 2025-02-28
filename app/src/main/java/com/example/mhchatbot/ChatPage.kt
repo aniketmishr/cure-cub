@@ -42,8 +42,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.preferencesDataStore
 import com.example.mhchatbot.ui.theme.ColorModelMessage
 import com.example.mhchatbot.ui.theme.ColorUserMessage
+import com.example.mhchatbot.ui.theme.backgroundColor
 
 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Composable
@@ -51,10 +53,9 @@ fun ChatPage(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFD9EEFF))
+            .background(backgroundColor)
     ) {
         Column(modifier = modifier) {
-            AppHeader()
             MessageList(modifier = Modifier.weight(1f), messageList =  viewModel.messageList)
             MessageInput(
                 onMessageSend = {
@@ -143,57 +144,3 @@ fun MessageRow(messageModel: MessageModel) {
 }
 
 
-@Composable
-fun AppHeader() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFFD9EEFF))
-            .padding(16.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back",
-                tint = Color.Black,
-                modifier = Modifier.size(24.dp)
-            )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF4DC2B7))
-            ) {
-                // Using a placeholder for the bear icon
-                // In a real app, you would use your actual bear drawable resource
-                Text(
-                    text = "🐻",
-                    fontSize = 20.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column {
-                Text(
-                    text = "CureCub",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-                Text(
-                    text = "Active Now",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-        }
-    }
-
-}

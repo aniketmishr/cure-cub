@@ -13,12 +13,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,6 +29,13 @@ fun NameScreen(
     navController: NavController
 ) {
     var name by remember { mutableStateOf("") }
+
+    //context
+    val context = LocalContext.current
+    // a coroutine scope
+    val scope = rememberCoroutineScope()
+    // we instantiate the saveUserInfo class
+    val dataStore = StoreUserInfo(context)
 
     Box(
         modifier = Modifier
@@ -91,7 +100,11 @@ fun NameScreen(
 
             // Get started button
             Button(
-                onClick = { onGetStarted(name) },
+                onClick = {
+                    scope.launch {
+                        dataStore.saveUserInfo(name)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),

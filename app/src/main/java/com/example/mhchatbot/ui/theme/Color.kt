@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val ColorUserMessage = Color(0xFF03A9F4)
 val ColorModelMessage = Color(0xFF4CAF50)
+
+val backgroundColor = Color(0xFFE6F4F7)

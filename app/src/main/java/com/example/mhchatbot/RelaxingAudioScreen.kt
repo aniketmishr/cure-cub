@@ -1,8 +1,5 @@
 package com.example.mhchatbot
 
-import android.content.Context
-import android.media.MediaPlayer
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mhchatbot.ui.theme.backgroundColor
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -138,37 +136,8 @@ fun RelaxingAudiosScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE6F4F7))
+            .background(backgroundColor)
     ) {
-        // Topbar
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back",
-                modifier = Modifier
-                    .size(28.dp)
-                    .clickable {
-                        viewModel.stopAudio() // Stop audio when leaving screen
-                        onBackClick()
-                    },
-                tint = Color.Black
-            )
-
-            Spacer(modifier = Modifier.width(24.dp))
-
-            Text(
-                text = "Relaxing Audios",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black,
-                modifier = Modifier.weight(1f)
-            )
-        }
 
         // Content
         Column(

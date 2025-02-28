@@ -46,7 +46,7 @@ fun VideoSelfHelpScreen() {
                 videoTitle = "10Minutes Anxiety Relief Practice",
                 backgroundColor = Color(0xFFEEE6DB),
                 imageRes = R.drawable.meditation_2,
-                "https://youtu.be/z-IR48Mb3W0?feature=shared"
+                "https://youtu.be/xShv7mMmfW4?si=2kKdhtthq8JBZAOd"
             )
 
             // Last Week's Recommendations Section
@@ -56,7 +56,7 @@ fun VideoSelfHelpScreen() {
                 videoTitle = "10Minutes Anxiety Relief Practice",
                 backgroundColor = Color(0xFFE6E9F5),
                 imageRes = R.drawable._0_min_meditation,
-                "https://youtu.be/z-IR48Mb3W0?feature=shared"
+                "https://www.youtube.com/watch?v=xRxT9cOKiM8&feature=youtu.be"
             )
         }
     }

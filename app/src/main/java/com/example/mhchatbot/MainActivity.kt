@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemColors
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
@@ -72,17 +75,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+//        val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+        val userPreferences = StoreUserInfo(applicationContext)
+        val chatViewModel = ChatViewModel(userPreferences)
         val audioPlayerViewModel = ViewModelProvider(this)[AudioPlayerViewModel::class.java]
 
         setContent {
             val navController = rememberNavController()
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentScreen = backStackEntry?.destination?.route ?: Screen.Welcome.route
+            var selectedTab by remember { mutableStateOf("Chat") }
 
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val coroutineScope = rememberCoroutineScope()
-            var selectedTab by remember { mutableStateOf("Chat") }
+
 
             MHChatbotTheme {
                 Box(
@@ -106,7 +112,7 @@ class MainActivity : ComponentActivity() {
                                     Box(modifier = Modifier
                                         .fillMaxWidth()
                                         .background(Color(0xFFE6F4F7))) {
-                                        if (currentScreen==Screen.Welcome.route||currentScreen==Screen.MindBoosterScreen.route||currentScreen==Screen.SelfHelp.route) {
+                                        if (currentScreen==Screen.Welcome.route||currentScreen==Screen.MindBoosterScreen.route||currentScreen==Screen.SelfHelp.route||currentScreen==Screen.JournalScreen.route) {
                                             Row(
                                                 modifier = Modifier
                                                     .background(Color(0xFFE6F4F7))
@@ -115,7 +121,7 @@ class MainActivity : ComponentActivity() {
                                             ) {
                                                 //                       Spacer(modifier=Modifier.width(16.dp))
                                                 Icon(
-                                                    painter = painterResource(R.drawable.menu),
+                                                    painter = painterResource(R.drawable.humburger_icon),
                                                     contentDescription = null,
                                                     modifier = Modifier
                                                         .clickable { coroutineScope.launch { if (drawerState.isOpen) drawerState.close() else drawerState.open() } }
@@ -124,7 +130,7 @@ class MainActivity : ComponentActivity() {
                                                     tint = Color.Black
                                                 )
                                             }
-                                        } else if (currentScreen==Screen.AudioScreen.route||currentScreen==Screen.VideoSelfHelp.route){
+                                        } else if (currentScreen==Screen.AudioScreen.route||currentScreen==Screen.VideoSelfHelp.route||currentScreen==Screen.Article.route){
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                                 contentDescription = null,
@@ -152,6 +158,8 @@ class MainActivity : ComponentActivity() {
                                         else if (currentScreen==Screen.SelfHelp.route) TopBarText("Self-Help", modifier = Modifier.align(Alignment.Center))
                                         else if (currentScreen==Screen.VideoSelfHelp.route) TopBarText("Videos", modifier = Modifier.align(Alignment.Center))
                                         else if (currentScreen==Screen.MindBoosterScreen.route) TopBarText("Mind Booster", modifier = Modifier.align(Alignment.Center))
+                                        else if (currentScreen==Screen.JournalScreen.route) TopBarText("My Journal", modifier = Modifier.align(Alignment.Center))
+                                        else if (currentScreen==Screen.Article.route) TopBarText("Article", modifier = Modifier.align(Alignment.Center))
 
                                         else TopBarText("", modifier = Modifier.align(Alignment.Center))
 
@@ -159,7 +167,7 @@ class MainActivity : ComponentActivity() {
 
                             },
                             bottomBar = {
-                                if (currentScreen==Screen.Welcome.route||currentScreen==Screen.MindBoosterScreen.route||currentScreen==Screen.SelfHelp.route) {
+                                if (currentScreen==Screen.Welcome.route||currentScreen==Screen.MindBoosterScreen.route||currentScreen==Screen.SelfHelp.route||currentScreen==Screen.JournalScreen.route) {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -172,7 +180,7 @@ class MainActivity : ComponentActivity() {
                                             if (selectedTab=="Chat") {navController.navigate(Screen.Chat.route)}
                                             else if (selectedTab=="Mood Booster") {navController.navigate(Screen.MindBoosterScreen.route)}
                                             else if (selectedTab=="Self-Help") {navController.navigate(Screen.SelfHelp.route)}
-                                            else if (selectedTab=="Journal") {navController.navigate(Screen.SelfHelp.route)} //TODO: Journal SCreen
+                                            else if (selectedTab=="Journal") {navController.navigate(Screen.JournalScreen.route)} //TODO: Journal SCreen
                                             else {
                                                 Log.d("hi", "nothing")}
                                         }
@@ -197,6 +205,7 @@ class MainActivity : ComponentActivity() {
                                 }
                                 composable(route = Screen.Name.route) {
                                     NameScreen(
+                                        userPreferences= userPreferences,
                                         navController = navController,
                                         onGetStarted = { navController.navigate(Screen.Welcome.route) })
                                 }
@@ -218,6 +227,12 @@ class MainActivity : ComponentActivity() {
                                 composable(route = Screen.VideoSelfHelp.route) {
                                     VideoSelfHelpScreen()
                                 }
+                                composable(route = Screen.JournalScreen.route) {
+                                    JournalScreen()
+                                }
+                                composable(route = Screen.Article.route) {
+                                    ArticlesScreen()
+                                }
                             }
                         }
                     }
@@ -230,7 +245,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavigationDrawerContent() {
+    val sharedScreenViewModel = SharedScreenViewModel()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
     ModalDrawerSheet(
         modifier = Modifier.requiredWidth(300.dp),
         drawerContainerColor = Color(0xFFE6F4F7)
@@ -269,7 +286,8 @@ fun NavigationDrawerContent() {
                 HorizontalDivider(thickness = 2.dp)
                 Spacer(modifier = Modifier.height(5.dp))
                 Spacer(modifier = Modifier.height(5.dp))
-                NavigationDrawerItem(label = { Text(text = "Report Bugs") },
+                NavigationDrawerItem(modifier = Modifier
+                    ,label = { Text(text = "Report Bugs") },
                     selected = false,
                     icon = {
                         Icon(
@@ -279,12 +297,12 @@ fun NavigationDrawerContent() {
                         )
                     },
                     onClick = {
-                        //                    openGmailApp("mailto:aniketmishra3476@gmail.com?subject=Connect: Report Bug",context)
+                                            sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=Connect: Report Bug",context)
                     })
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Suggestion") }, selected = false,
                     onClick = {
-                        //                    openGmailApp("mailto:aniketmishra3476@gmail.com?subject=Connect: Suggestion",context)
+                                            sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=Connect: Suggestion",context)
                     }, icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.suggestion),
@@ -295,7 +313,7 @@ fun NavigationDrawerContent() {
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Star Github Repo") }, selected = false,
                     onClick = {
-                        //                    openBrowser(context,"https://github.com/aniketmishr/connect-app")
+                                            sharedScreenViewModel.openBrowser(context,"https://github.com/aniketmishr/connect-app")
                     }, icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.star),
@@ -306,7 +324,7 @@ fun NavigationDrawerContent() {
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Share App") }, selected = false,
                     onClick = {
-                        //                    shareApp(context, "https://github.com/aniketmishr/connect-app?tab=readme-ov-file#installation")
+                                            sharedScreenViewModel.shareApp(context, "https://github.com/aniketmishr/connect-app?tab=readme-ov-file#installation")
                     }, icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.share),
@@ -397,7 +415,7 @@ fun BottomNavigationBar(
     ) {
         NavItem(
             title = "Chat",
-            icon = Icons.Outlined.Star,
+            icon = R.drawable.chat,
             selected = selectedTab == "Chat",
             onSelected = { onTabSelected("Chat")
                          },
@@ -406,7 +424,7 @@ fun BottomNavigationBar(
 
         NavItem(
             title = "Self-Help",
-            icon = Icons.Outlined.Star,
+            icon = R.drawable.selfhelp,
             selected = selectedTab == "Self-Help",
             onSelected = { onTabSelected("Self-Help") },
             modifier = Modifier.weight(1f)
@@ -415,7 +433,7 @@ fun BottomNavigationBar(
 
         NavItem(
             title = "Journal",
-            icon = Icons.Outlined.Star,
+            icon = R.drawable.journal,
             selected = selectedTab == "Journal",
             onSelected = { onTabSelected("Journal") },
             modifier = Modifier.weight(1f)
@@ -424,7 +442,7 @@ fun BottomNavigationBar(
 
         NavItem(
             title = "Mood Booster",
-            icon = Icons.Outlined.Star, // Replace with actual rocket icon
+            icon = R.drawable.mood_booster, // Replace with actual rocket icon
             selected = selectedTab == "Mood Booster",
             onSelected = { onTabSelected("Mood Booster") },
             modifier = Modifier.weight(1f)
@@ -437,7 +455,7 @@ fun BottomNavigationBar(
 @Composable
 fun NavItem(
     title: String,
-    icon: ImageVector,
+    icon: Int,
     selected: Boolean,
     onSelected: () -> Unit,
     modifier: Modifier = Modifier
@@ -450,7 +468,7 @@ fun NavItem(
             .padding(8.dp)
     ) {
         Icon(
-            imageVector = icon,
+            painter = painterResource(icon),
             contentDescription = title,
             tint = if (selected) Color.Black else Color.Gray,
             modifier = Modifier.size(24.dp)

@@ -14,6 +14,9 @@ sealed class Screen(val route: String,val topBarTitle: String)
     object MindBoosterScreen: Screen("mindbooster_screen", "Mind Booster")
     object SelfHelp: Screen("selfhelp_screen", "Self Help")
     object VideoSelfHelp: Screen("video_selfhelp","Videos")
+    object JournalScreen: Screen("journal_screen","Journal")
+    object Article: Screen("article_screen","Article")
+
 }
 
 //NavHost(

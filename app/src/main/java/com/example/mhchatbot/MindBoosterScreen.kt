@@ -1,7 +1,9 @@
 package com.example.mhchatbot
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +19,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +29,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MindBoosterScreen() {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,15 +75,20 @@ data class Game(
     val categories: List<String>,
     val rating: Float,
     val size: String,
-    val isPremium: Boolean = false,
-    val iconColor: Color
+    val iconColor: Color,
+    val url: String,
+    val icon: Int
 )
 
 @Composable
 fun GameItem(game: Game) {
+    val context = LocalContext.current
+    val sharedScreenViewModel = SharedScreenViewModel()
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { sharedScreenViewModel.openBrowser(context, game.url) }
+        ,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -88,48 +98,7 @@ fun GameItem(game: Game) {
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Game icon
-            Box(
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape)
-                    .background(game.iconColor),
-                contentAlignment = Alignment.Center
-            ) {
-                // Simple icon representation based on the game type
-                when {
-                    game.title.contains("Infinity Loop") -> {
-                        Text(
-                            text = "∞",
-                            color = Color.White,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    game.title.contains("Energy") -> {
-                        Box(
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clip(CircleShape)
-                                .background(Color.White.copy(alpha = 0.5f))
-                        )
-                    }
-                    game.title.contains("Hex") -> {
-                        Text(
-                            text = "⬡",
-                            color = Color.White,
-                            fontSize = 24.sp
-                        )
-                    }
-                    game.title.contains("Antisquare") -> {
-                        Box(
-                            modifier = Modifier
-                                .size(30.dp)
-                                .background(Color.Yellow)
-                        )
-                    }
-                }
-            }
+            Image(painter = painterResource(game.icon), contentDescription = null)
 
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -180,16 +149,6 @@ fun GameItem(game: Game) {
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-
-                    if (game.isPremium) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Icon(
-                            imageVector = Icons.Default.Star,
-                            contentDescription = "Premium",
-                            tint = Color(0xFFFFC107),
-                            modifier = Modifier.size(12.dp)
-                        )
-                    }
                 }
             }
         }
@@ -205,8 +164,9 @@ fun getGamesList(): List<Game> {
             categories = listOf("Puzzle", "Logic", "Casual"),
             rating = 4.8f,
             size = "28 MB",
-            isPremium = true,
-            iconColor = Color.Black
+            iconColor = Color.Black,
+            url = "https://play.google.com/store/apps/details?id=com.balysv.loop",
+            R.drawable.infinity_loop
         ),
         Game(
             title = "Energy: Anti-Stress Loops",
@@ -214,7 +174,9 @@ fun getGamesList(): List<Game> {
             categories = listOf("Puzzle", "Logic", "Casual"),
             rating = 4.7f,
             size = "25 MB",
-            iconColor = Color.Gray
+            iconColor = Color.Gray,
+            url = "https://play.google.com/store/apps/details?id=com.infinitygames.loopenergy",
+            R.drawable.energy_antistress
         ),
         Game(
             title = "Hex: Anxiety Relief Relax Game",
@@ -222,8 +184,9 @@ fun getGamesList(): List<Game> {
             categories = listOf("Puzzle", "Logic", "Casual"),
             rating = 4.5f,
             size = "32 MB",
-            isPremium = true,
-            iconColor = Color(0xFF6A1B9A)
+            iconColor = Color(0xFF6A1B9A),
+            url = "https://play.google.com/store/apps/details?id=com.infinitygames.loophex",
+            R.drawable.hex
         ),
         Game(
             title = "Antisquare - Relax Mini Games",
@@ -231,15 +194,10 @@ fun getGamesList(): List<Game> {
             categories = listOf("Simulation", "Fun", "Puzzle", "Logic", "Casual"),
             rating = 4.6f,
             size = "40 MB",
-            iconColor = Color(0xFFFFA000)
+            iconColor = Color(0xFFFFA000),
+            url = "https://play.google.com/store/apps/details?id=com.uc.minigame.relax",
+            R.drawable.anti
         )
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MindBoosterScreenPreview() {
-    MaterialTheme {
-        MindBoosterScreen()
-    }
-}

@@ -133,7 +133,7 @@ fun WelcomeScreenBody(
                     ) {
                         // Simple chat bubble icon
                         Icon(
-                            imageVector = Icons.Filled.Email,
+                            painter = painterResource(R.drawable.chat_icon),
                             contentDescription = "Chat",
                             tint = Color.Black
                         )

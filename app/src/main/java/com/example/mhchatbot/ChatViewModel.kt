@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 val SYSTEM_PROMPT = """
@@ -50,7 +52,17 @@ sealed class RESULT(val stage: String)
     object STAGE3 : RESULT("<STAGE3>")
 }
 
-class ChatViewModel: ViewModel() {
+class ChatViewModel(private val userPreferences: StoreUserInfo): ViewModel() {
+    private val _userName = MutableStateFlow<String?>(null)
+    val userName = _userName.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            userPreferences.userName.collect { name ->
+                _userName.value = name
+            }
+        }
+    }
 
     val messageList by lazy {
         mutableStateListOf<MessageModel>()
@@ -59,7 +71,7 @@ class ChatViewModel: ViewModel() {
         modelName = "gemini-2.0-flash",
         apiKey = Constants.apiKey,
         systemInstruction = content {
-            text(SYSTEM_PROMPT)
+            text(SYSTEM_PROMPT+"whose name is ${_userName.value}")
         }
     )
 

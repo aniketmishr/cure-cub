@@ -1,8 +1,10 @@
 package com.example.mhchatbot
 
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,7 +44,9 @@ fun VideoSelfHelpScreen() {
                 title = "Today's Recommendations",
                 author = "By Mindful Moments",
                 videoTitle = "10Minutes Anxiety Relief Practice",
-                backgroundColor = Color(0xFFEEE6DB)
+                backgroundColor = Color(0xFFEEE6DB),
+                imageRes = R.drawable.meditation_2,
+                "https://youtu.be/z-IR48Mb3W0?feature=shared"
             )
 
             // Last Week's Recommendations Section
@@ -49,7 +54,9 @@ fun VideoSelfHelpScreen() {
                 title = "Last Week Recommendations",
                 author = "By Mindful Moments",
                 videoTitle = "10Minutes Anxiety Relief Practice",
-                backgroundColor = Color(0xFFE6E9F5)
+                backgroundColor = Color(0xFFE6E9F5),
+                imageRes = R.drawable._0_min_meditation,
+                "https://youtu.be/z-IR48Mb3W0?feature=shared"
             )
         }
     }
@@ -60,14 +67,19 @@ fun RecommendationSection(
     title: String,
     author: String,
     videoTitle: String,
-    backgroundColor: Color
+    backgroundColor: Color,
+    imageRes:Int,
+    url: String
 ) {
+    val context = LocalContext.current
+    val sharedScreenViewModel = SharedScreenViewModel()
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
             .padding(16.dp)
+            .clickable { sharedScreenViewModel.openBrowser(context, url) }
     ) {
         Text(
             text = title,
@@ -83,117 +95,10 @@ fun RecommendationSection(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // Video thumbnail with YouTube-like player
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(190.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .background(Color(0xFF9B4E46))
-        ) {
-            // Placeholder for the video thumbnail
-            // In a real app, you would use AsyncImage with Coil or Glide
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                // Meditation title
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(16.dp)
-                ) {
-                    Text(
-                        text = "Meditation to",
-                        fontSize = 14.sp,
-                        color = Color(0xFF8FD14F),
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    Text(
-                        text = "CALM YOUR ANXIOUS",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    Text(
-                        text = "THOUGHTS",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                }
-
-                // Circles decoration (simplified)
-                // In a real app, you would draw these circles in a more precise way
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(12.dp)
-                            .background(Color.White.copy(alpha = 0.7f), RoundedCornerShape(6.dp))
-                    )
-                    Box(
-                        modifier = Modifier
-                            .size(16.dp)
-                            .background(Color.White.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                    )
-                }
-
-                // YouTube player controls overlay
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(Color.Black.copy(alpha = 0.6f))
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // Play/Pause icon placeholder
-                        Box(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .background(Color.Transparent)
-                        )
-
-                        // Progress bar
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(4.dp)
-                                .padding(horizontal = 8.dp)
-                                .background(Color.Gray)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .width(80.dp)
-                                    .height(4.dp)
-                                    .background(Color.Red)
-                            )
-                        }
-
-                        // Time indicator
-                        Text(
-                            text = "3:45 / 10:00",
-                            fontSize = 12.sp,
-                            color = Color.White
-                        )
-                    }
-                }
-            }
-        }
-
+        Image(
+            painter = painterResource(imageRes),
+            contentDescription = null
+        )
         // Video title
         Text(
             text = videoTitle,

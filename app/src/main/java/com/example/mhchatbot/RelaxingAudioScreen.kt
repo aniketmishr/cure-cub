@@ -62,7 +62,7 @@ fun AudioCardWithControls(
             ) {
                 // Audio wave icon
                 Icon(
-                    painter = painterResource(id = R.drawable.star),
+                    painter = painterResource(id = R.drawable.wave),
                     contentDescription = "Audio Wave",
                     modifier = Modifier.size(24.dp),
                     tint = Color.White

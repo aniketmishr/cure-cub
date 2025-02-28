@@ -34,7 +34,7 @@ fun SelfHelpScreen(navController: NavController) {
                 text = "\"Empower yourself with our app's self-help feature, offering personalized support to navigate through tough times and find joy again.\"",
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
-                color = Color(0xFF2E4F4F),
+                color = Color.DarkGray,
                 modifier = Modifier.padding(vertical = 24.dp)
             )
 
@@ -47,7 +47,7 @@ fun SelfHelpScreen(navController: NavController) {
                 CategoryCard(
                     title = "Audios",
                     description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
-                    backgroundColor = Color(0xFF2E4F4F),
+                    backgroundColor = Color(0xFF00b4d8),
                     contentColor = Color.White,
                     modifier = Modifier.weight(1f),
                     onClick = {navController.navigate(Screen.AudioScreen.route)}
@@ -57,7 +57,7 @@ fun SelfHelpScreen(navController: NavController) {
                 CategoryCard(
                     title = "Videos",
                     description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
-                    backgroundColor = Color(0xFFFFFFFF),
+                    backgroundColor = Color(0xFF90e0ef),
                     contentColor = Color(0xFF2E4F4F),
                     modifier = Modifier.weight(1f),
                     onClick = {navController.navigate(Screen.VideoSelfHelp.route)}
@@ -74,17 +74,17 @@ fun SelfHelpScreen(navController: NavController) {
                 CategoryCard(
                     title = "Articles",
                     description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
-                    backgroundColor = Color(0xFF8FD14F),
-                    contentColor = Color(0xFF2E4F4F),
+                    backgroundColor = Color(0xFF07C4EC),
+                    contentColor = Color.White,
                     modifier = Modifier.weight(1f),
-                    onClick = {navController.navigate(Screen.AudioScreen.route)}
+                    onClick = {navController.navigate(Screen.Article.route)}
                 )
 
                 // Podcast card
                 CategoryCard(
                     title = "Meditation",
                     description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
-                    backgroundColor = Color(0xFFFFFFFF),
+                    backgroundColor = Color(0xFFcaf0f8),
                     contentColor = Color(0xFF2E4F4F),
                     modifier = Modifier.weight(1f),
                     onClick = {navController.navigate(Screen.MeditationScreen.route)}

@@ -35,4 +35,16 @@ class SharedScreenViewModel: ViewModel() {
         val chooserIntent = Intent.createChooser(shareIntent,null)
         context.startActivity(shareIntent)
     }
+    fun enableCall(context: Context){
+        val phoneNumber = "18005990019"
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$phoneNumber")
+        }
+        try {
+            intent.putExtra("videoCall",true)
+            context.startActivity(intent)
+        } catch(e: Exception){
+            Toast.makeText(context, "Cannot Video Call", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

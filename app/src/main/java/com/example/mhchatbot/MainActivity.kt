@@ -31,6 +31,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -51,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -297,12 +300,12 @@ fun NavigationDrawerContent() {
                         )
                     },
                     onClick = {
-                                            sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=Connect: Report Bug",context)
+                                            sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=CureCub: Report Bug",context)
                     })
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Suggestion") }, selected = false,
                     onClick = {
-                                            sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=Connect: Suggestion",context)
+                                            sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=CureCub: Suggestion",context)
                     }, icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.suggestion),
@@ -313,7 +316,7 @@ fun NavigationDrawerContent() {
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Star Github Repo") }, selected = false,
                     onClick = {
-                                            sharedScreenViewModel.openBrowser(context,"https://github.com/aniketmishr/connect-app")
+                                            sharedScreenViewModel.openBrowser(context,"https://github.com/aniketmishr/cure-cub")
                     }, icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.star),
@@ -340,6 +343,8 @@ fun NavigationDrawerContent() {
 
 @Composable
 fun ChatTopBar(navController: NavController) {
+    val sharedScreenViewModel= SharedScreenViewModel()
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -394,6 +399,33 @@ fun ChatTopBar(navController: NavController) {
                     )
                 }
             }
+
+        }
+
+        //SOS
+        Button(
+            onClick = {sharedScreenViewModel.enableCall(context)},
+            modifier = Modifier
+                .width(100.dp)
+                .height(50.dp)
+                .align(Alignment.BottomEnd)
+                .border(
+                    width = 2.dp,
+                    color = Color.Red,
+                    shape = RoundedCornerShape(12.dp)
+                ),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Red
+            )
+        ) {
+            Text(
+                text = "SOS",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+//                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
         }
     }
 

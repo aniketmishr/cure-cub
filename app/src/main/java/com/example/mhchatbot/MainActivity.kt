@@ -2,11 +2,12 @@ package com.example.mhchatbot
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,15 +15,22 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,10 +46,14 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemColors
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -87,7 +99,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentScreen = backStackEntry?.destination?.route ?: Screen.Welcome.route
-            var selectedTab by remember { mutableStateOf("Chat") }
 
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val coroutineScope = rememberCoroutineScope()
@@ -97,19 +108,15 @@ class MainActivity : ComponentActivity() {
                 Box(
                     modifier = Modifier
                         .background(backgroundColor)
-                        .padding(
-                            start = 8.dp,
-                            end = 8.dp,
-                            top = 32.dp,
-                            bottom = 16.dp
-                        )
                 ) {
                     ModalNavigationDrawer(
                         drawerState = drawerState,
                         drawerContent = { NavigationDrawerContent() }
                     ) {
                         Scaffold(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier.windowInsetsPadding(
+                                WindowInsets.statusBars
+                            ),
                             topBar = {
 
                                     Box(modifier = Modifier
@@ -170,25 +177,17 @@ class MainActivity : ComponentActivity() {
 
                             },
                             bottomBar = {
-                                if (currentScreen==Screen.Welcome.route||currentScreen==Screen.MindBoosterScreen.route||currentScreen==Screen.SelfHelp.route||currentScreen==Screen.JournalScreen.route) {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .background(Color(0xFFE6F4F7))
-                                            .padding(8.dp)
-                                            .clip(RoundedCornerShape(48f))
+                                if (currentScreen in Constants.BottomNavItems.map { it.route }) {
+                                    Surface(
+                                        modifier = Modifier.border(
+                                            BorderStroke(0.5f.dp, Color.LightGray),
+                                            RoundedCornerShape(24.dp)
+                                        ),
+                                        // border = BorderStroke(0.5f.dp, Color.LightGray)
                                     ) {
-                                        BottomNavigationBar(selectedTab = selectedTab) {
-                                            selectedTab = it
-                                            if (selectedTab=="Chat") {navController.navigate(Screen.Chat.route)}
-                                            else if (selectedTab=="Mood Booster") {navController.navigate(Screen.MindBoosterScreen.route)}
-                                            else if (selectedTab=="Self-Help") {navController.navigate(Screen.SelfHelp.route)}
-                                            else if (selectedTab=="Journal") {navController.navigate(Screen.JournalScreen.route)} //TODO: Journal SCreen
-                                            else {
-                                                Log.d("hi", "nothing")}
-                                        }
+                                        BottomNavigationBar(navController = navController)
                                     }
-                                } else{
+                                } else {
                                     Box(modifier=Modifier
                                         .fillMaxWidth()
                                         .background(Color.Transparent))
@@ -390,7 +389,11 @@ fun ChatTopBar(navController: NavController) {
                     color = Color.Black
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(modifier = Modifier.width(7.dp).height(7.dp).clip(CircleShape).background(Color.Green))
+                    Box(modifier = Modifier
+                        .width(7.dp)
+                        .height(7.dp)
+                        .clip(CircleShape)
+                        .background(Color.Green))
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
                         text = "Active Now",
@@ -432,99 +435,143 @@ fun ChatTopBar(navController: NavController) {
 }
 
 @Composable
-fun BottomNavigationBar(
-    selectedTab: String,
-    onTabSelected: (String) -> Unit
-) {
-    // Navigation items
-    Row(
+fun BottomNavigationBar(navController: NavController) {
+    NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
-            .background(Color.White),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
+            .height(IntrinsicSize.Min),
+        tonalElevation = 4.dp,
+        containerColor = backgroundColor
     ) {
-        NavItem(
-            title = "Chat",
-            icon = R.drawable.chat,
-            selected = selectedTab == "Chat",
-            onSelected = { onTabSelected("Chat")
-                         },
-            modifier = Modifier.weight(1f)
-        )
-
-        NavItem(
-            title = "Self-Help",
-            icon = R.drawable.selfhelp,
-            selected = selectedTab == "Self-Help",
-            onSelected = { onTabSelected("Self-Help") },
-            modifier = Modifier.weight(1f)
-
-        )
-
-        NavItem(
-            title = "Journal",
-            icon = R.drawable.journal,
-            selected = selectedTab == "Journal",
-            onSelected = { onTabSelected("Journal") },
-            modifier = Modifier.weight(1f)
-
-        )
-
-        NavItem(
-            title = "Mood Booster",
-            icon = R.drawable.mood_booster, // Replace with actual rocket icon
-            selected = selectedTab == "Mood Booster",
-            onSelected = { onTabSelected("Mood Booster") },
-            modifier = Modifier.weight(1f)
-
-        )
-    }
-
-}
-
-@Composable
-fun NavItem(
-    title: String,
-    icon: Int,
-    selected: Boolean,
-    onSelected: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-            .clickable { onSelected() }
-            .padding(8.dp)
-    ) {
-        Icon(
-            painter = painterResource(icon),
-            contentDescription = title,
-            tint = if (selected) Color.Black else Color.Gray,
-            modifier = Modifier.size(24.dp)
-        )
-
-        Text(
-            text = title,
-            fontSize = 12.sp,
-            color = if (selected) Color.Black else Color.Gray,
-            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
-            textAlign = TextAlign.Center
-        )
-
-        if (selected) {
-            Box(
-                modifier = Modifier
-                    .padding(top = 4.dp)
-                    .width(24.dp)
-                    .height(2.dp)
-                    .background(Color.Black)
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        Constants.BottomNavItems.forEach { navItem ->
+            NavigationBarItem(
+                modifier = Modifier.height(IntrinsicSize.Min),
+                selected = currentRoute==navItem.route,
+                onClick = {
+                    navController.navigate(navItem.route)
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(navItem.icon),
+                        contentDescription = navItem.label,
+                        tint = if (currentRoute == navItem.route) Color.Black else Color.Gray,
+                        modifier = Modifier.size(24.dp)
+                        )
+                },
+                label = {
+                    Text(text = navItem.label,
+                        color = if (currentRoute == navItem.route) Color.Black else Color.Gray
+                        )
+                },
+                alwaysShowLabel = true,
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.White, // Icon color when selected
+                    unselectedIconColor = Color.White, // Icon color when not selected
+                    selectedTextColor = Color.White, // Label color when selected
+                    indicatorColor = Color(0xFF48BDB7) // Highlight color for selected item
+                )
             )
         }
     }
 }
+
+
+//@Composable
+//fun BottomNavigationBar(
+//    selectedTab: String,
+//    onTabSelected: (String) -> Unit
+//) {
+//    // Navigation items
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .height(70.dp)
+//            .background(Color.White),
+//        horizontalArrangement = Arrangement.SpaceEvenly,
+//        verticalAlignment = Alignment.CenterVertically
+//    ) {
+//        NavItem(
+//            title = "Chat",
+//            icon = R.drawable.chat,
+//            selected = selectedTab == "Chat",
+//            onSelected = { onTabSelected("Chat")
+//                         },
+//            modifier = Modifier.weight(1f)
+//        )
+//
+//        NavItem(
+//            title = "Self-Help",
+//            icon = R.drawable.selfhelp,
+//            selected = selectedTab == "Self-Help",
+//            onSelected = { onTabSelected("Self-Help") },
+//            modifier = Modifier.weight(1f)
+//
+//        )
+//
+//        NavItem(
+//            title = "Journal",
+//            icon = R.drawable.journal,
+//            selected = selectedTab == "Journal",
+//            onSelected = { onTabSelected("Journal") },
+//            modifier = Modifier.weight(1f)
+//
+//        )
+//
+//        NavItem(
+//            title = "Mood Booster",
+//            icon = R.drawable.mood_booster, // Replace with actual rocket icon
+//            selected = selectedTab == "Mood Booster",
+//            onSelected = { onTabSelected("Mood Booster") },
+//            modifier = Modifier.weight(1f)
+//
+//        )
+//    }
+//
+//}
+
+//@Composable
+//fun NavItem(
+//    title: String,
+//    icon: Int,
+//    selected: Boolean,
+//    onSelected: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    Column(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center,
+//        modifier = modifier
+//            .clickable { onSelected() }
+//            .padding(8.dp)
+//    ) {
+//        Icon(
+//            painter = painterResource(icon),
+//            contentDescription = title,
+//            tint = if (selected) Color.Black else Color.Gray,
+//            modifier = Modifier.size(24.dp)
+//        )
+//
+//        Text(
+//            text = title,
+//            fontSize = 12.sp,
+//            color = if (selected) Color.Black else Color.Gray,
+//            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+//            textAlign = TextAlign.Center
+//        )
+//
+//        if (selected) {
+//            Box(
+//                modifier = Modifier
+//                    .padding(top = 4.dp)
+//                    .width(24.dp)
+//                    .height(2.dp)
+//                    .background(Color.Black)
+//            )
+//        }
+//    }
+//}
 
 @Composable
 fun TopBarText(text:String, modifier: Modifier) {
@@ -535,3 +582,9 @@ fun TopBarText(text:String, modifier: Modifier) {
         color=Color.Black
     )
 }
+
+data class BottomNavItem(
+    val label: String,
+    val icon: Int,
+    val route: String
+)

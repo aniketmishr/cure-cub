@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mhchatbot.ui.theme.backgroundColor
 
 @Composable
 fun MindBoosterScreen() {
@@ -33,7 +34,7 @@ fun MindBoosterScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE6F2F8))
+            .background(backgroundColor)
     ) {
         LazyColumn(
             modifier = Modifier

@@ -55,65 +55,57 @@ fun JournalScreen() {
     var showAddDialog = remember { mutableStateOf(false) }
     var editingEntry = remember { mutableStateOf<JournalEntry?>(null) }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = backgroundColor
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            // App Bar
-
-
-            // Journal content
-            Box(
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Journal content
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = backgroundColor,
+                )
+        ) {
+            // Journal entries
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        color = Color(0xFFF0F8FF), // Light blue background
-                        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-                    )
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Journal entries
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    val groupedEntries = entries.groupBy { it.date }
+                val groupedEntries = entries.groupBy { it.date }
 
-                    groupedEntries.forEach { (date, entriesList) ->
-                        item {
-                            Text(
-                                text = date.format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
-                                color = Color(0xFF2196F3),
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(vertical = 8.dp)
-                            )
-                        }
+                groupedEntries.forEach { (date, entriesList) ->
+                    item {
+                        Text(
+                            text = date.format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                            color = Color(0xFF2196F3),
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    }
 
-                        items(entriesList) { entry ->
-                            JournalEntryCard(
-                                entry = entry,
-                                onEditClick = { editingEntry.value = entry }
-                            )
-                        }
+                    items(entriesList) { entry ->
+                        JournalEntryCard(
+                            entry = entry,
+                            onEditClick = { editingEntry.value = entry }
+                        )
                     }
                 }
+            }
 
-                // Add button
-                FloatingActionButton(
-                    onClick = { showAddDialog.value = true },
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp),
-                    containerColor = Color.Black,
-                    contentColor = Color.White,
-                    shape = CircleShape
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Journal Entry")
-                }
+            // Add button
+            FloatingActionButton(
+                onClick = { showAddDialog.value = true },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                containerColor = Color.Black,
+                contentColor = Color.White,
+                shape = CircleShape
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add Journal Entry")
             }
         }
+    }
 
         // Add journal entry dialog
         if (showAddDialog.value) {
@@ -141,7 +133,7 @@ fun JournalScreen() {
                 }
             )
         }
-    }
+
 }
 
 @Composable

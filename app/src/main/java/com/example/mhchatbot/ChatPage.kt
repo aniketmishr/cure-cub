@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -24,6 +27,7 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -41,10 +45,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.preferencesDataStore
-import com.example.mhchatbot.ui.theme.ColorModelMessage
-import com.example.mhchatbot.ui.theme.ColorUserMessage
 import com.example.mhchatbot.ui.theme.backgroundColor
 
 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
@@ -52,8 +52,8 @@ import com.example.mhchatbot.ui.theme.backgroundColor
 fun ChatPage(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .background(backgroundColor)
+            .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
         Column(modifier = modifier) {
             MessageList(modifier = Modifier.weight(1f), messageList =  viewModel.messageList)
@@ -91,11 +91,20 @@ fun MessageInput(onMessageSend: (String)->Unit)
                 message =it
             }
         )
-        IconButton(onClick = {
+        IconButton(
+            onClick = {
             onMessageSend(message)
             message=""
-        }) {
-            Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "send", tint = Color.Black)
+        },
+            enabled = message.isNotBlank(),
+            colors = IconButtonColors(
+                contentColor = Color.Black,
+                containerColor = Color.Transparent,
+                disabledContentColor = Color.LightGray,
+                disabledContainerColor = Color.Transparent
+            )
+        ) {
+            Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "send")
         }
     }
 }

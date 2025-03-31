@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.mhchatbot.ui.theme.backgroundColor
 
 
 // Data class for mental health cards
@@ -68,7 +69,7 @@ fun ArticlesScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE6F3FF)) // Light blue background
+            .background(backgroundColor) // Light blue background
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -146,73 +147,3 @@ fun MentalHealthCardItem(
 }
 
 
-@Composable
-fun AddCardDialog(
-    onDismiss: () -> Unit,
-    onSave: (String, String, List<Color>) -> Unit
-) {
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-
-    // Default gradient colors
-    val gradientColors = listOf(Color(0xFF5E3A69), Color(0xFF2F1D34))
-
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = Color.White
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Add New Card",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text("Title") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = { Text("Description") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = onDismiss) {
-                        Text("Cancel")
-                    }
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    Button(
-                        onClick = { onSave(title, description, gradientColors) },
-                        enabled = title.isNotBlank() && description.isNotBlank()
-                    ) {
-                        Text("Save")
-                    }
-                }
-            }
-        }
-    }
-}

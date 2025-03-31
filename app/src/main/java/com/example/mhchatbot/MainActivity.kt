@@ -1,5 +1,7 @@
 package com.example.mhchatbot
 
+import UserViewModel
+import UserViewModelFactory
 import android.os.Build
 import android.os.Bundle
 
@@ -76,6 +78,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -91,9 +94,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 //        val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
-        val userPreferences = StoreUserInfo(applicationContext)
-        val chatViewModel = ChatViewModel(userPreferences)
-        val audioPlayerViewModel = ViewModelProvider(this)[AudioPlayerViewModel::class.java]
+//        val userPreferences = StoreUserInfo(applicationContext)
+//        val chatViewModel = ChatViewModel(userPreferences)
 
         setContent {
             val navController = rememberNavController()
@@ -195,47 +197,7 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                         { innerPadding ->
-
-                            NavHost(
-                                modifier = Modifier.padding(innerPadding),
-                                navController = navController, startDestination = Screen.Welcome.route
-                            ) {
-                                composable(route = Screen.Welcome.route) {
-                                    WelcomeScreen(
-                                        navController = navController,
-                                        onStartChatting = { navController.navigate(Screen.Chat.route) })
-                                }
-                                composable(route = Screen.Name.route) {
-                                    NameScreen(
-                                        userPreferences= userPreferences,
-                                        navController = navController,
-                                        onGetStarted = { navController.navigate(Screen.Welcome.route) })
-                                }
-                                composable(route = Screen.Chat.route) {
-                                    ChatPage(Modifier, chatViewModel)
-                                }
-                                composable(route = Screen.AudioScreen.route) {
-                                    RelaxingAudiosScreen(onBackClick = {}, audioPlayerViewModel)
-                                }
-                                composable(route = Screen.MeditationScreen.route) {
-                                    MeditationScreen()
-                                }
-                                composable(route = Screen.MindBoosterScreen.route) {
-                                    MindBoosterScreen()
-                                }
-                                composable(route = Screen.SelfHelp.route) {
-                                    SelfHelpScreen(navController)
-                                }
-                                composable(route = Screen.VideoSelfHelp.route) {
-                                    VideoSelfHelpScreen()
-                                }
-                                composable(route = Screen.JournalScreen.route) {
-                                    JournalScreen()
-                                }
-                                composable(route = Screen.Article.route) {
-                                    ArticlesScreen()
-                                }
-                            }
+                            AppNavigationHost(innerPadding, navController, )
                         }
                     }
                 }

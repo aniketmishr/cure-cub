@@ -298,34 +298,3 @@ fun EditJournalEntryDialog(entry: JournalEntry, onDismiss: () -> Unit, onSave: (
 }
 
 
-
-@Composable
-fun BottomNavigationItem(icon: String, label: String, selected: Boolean) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .padding(8.dp)
-            .width(64.dp)
-    ) {
-        Text(
-            text = icon,
-            fontSize = 24.sp
-        )
-
-        Text(
-            text = label,
-            fontSize = 12.sp,
-            color = if (selected) Color(0xFF2196F3) else Color.Gray,
-            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
-        )
-
-        if (selected) {
-            Box(
-                modifier = Modifier
-                    .width(32.dp)
-                    .height(2.dp)
-                    .background(Color(0xFF2196F3))
-            )
-        }
-    }
-}

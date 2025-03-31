@@ -37,7 +37,8 @@ import com.example.mhchatbot.ui.theme.backgroundColor
 @Composable
 fun WelcomeScreen(
     navController: NavController,
-    onStartChatting: () -> Unit
+    onStartChatting: () -> Unit,
+    userName: String
 ) {
     Box(
         modifier = Modifier
@@ -45,6 +46,7 @@ fun WelcomeScreen(
     ) {
         WelcomeScreenBody(
             navController = navController,
+            userName = userName,
             onStartChatting = onStartChatting
         )
     }
@@ -53,6 +55,7 @@ fun WelcomeScreen(
 @Composable
 fun WelcomeScreenBody(
     onStartChatting: () -> Unit,
+    userName: String,
     navController: NavController
 ) {
     Box(
@@ -91,8 +94,9 @@ fun WelcomeScreenBody(
 
             // Welcome text
             Text(
-                text = "Hey! I'm CureCub",
+                text = "Hey! $userName \nI'm CureCub",
                 fontSize = 28.sp,
+                lineHeight = (28*1.2).sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )

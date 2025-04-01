@@ -253,6 +253,9 @@ fun NavigationDrawerContent() {
                 NavigationDrawerItem(modifier = Modifier
                     ,label = { Text(text = "Report Bugs") },
                     selected = false,
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedContainerColor = Color.Transparent // Background color when not selected
+                    ),
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.bug),
@@ -265,6 +268,10 @@ fun NavigationDrawerContent() {
                     })
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Suggestion") }, selected = false,
+
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedContainerColor = Color.Transparent // Background color when not selected
+                    ),
                     onClick = {
                                             sharedScreenViewModel.openGmailApp("mailto:aniketmishra3476@gmail.com?subject=CureCub: Suggestion",context)
                     }, icon = {
@@ -276,6 +283,10 @@ fun NavigationDrawerContent() {
                     })
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Star Github Repo") }, selected = false,
+
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedContainerColor = Color.Transparent // Background color when not selected
+                    ),
                     onClick = {
                                             sharedScreenViewModel.openBrowser(context,"https://github.com/aniketmishr/cure-cub")
                     }, icon = {
@@ -287,6 +298,10 @@ fun NavigationDrawerContent() {
                     })
                 Spacer(modifier = Modifier.height(5.dp))
                 NavigationDrawerItem(label = { Text(text = "Share App") }, selected = false,
+
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedContainerColor = Color.Transparent // Background color when not selected
+                    ),
                     onClick = {
                                             sharedScreenViewModel.shareApp(context, "https://github.com/aniketmishr/connect-app?tab=readme-ov-file#installation")
                     }, icon = {
@@ -440,100 +455,6 @@ fun BottomNavigationBar(navController: NavController) {
 }
 
 
-//@Composable
-//fun BottomNavigationBar(
-//    selectedTab: String,
-//    onTabSelected: (String) -> Unit
-//) {
-//    // Navigation items
-//    Row(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .height(70.dp)
-//            .background(Color.White),
-//        horizontalArrangement = Arrangement.SpaceEvenly,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        NavItem(
-//            title = "Chat",
-//            icon = R.drawable.chat,
-//            selected = selectedTab == "Chat",
-//            onSelected = { onTabSelected("Chat")
-//                         },
-//            modifier = Modifier.weight(1f)
-//        )
-//
-//        NavItem(
-//            title = "Self-Help",
-//            icon = R.drawable.selfhelp,
-//            selected = selectedTab == "Self-Help",
-//            onSelected = { onTabSelected("Self-Help") },
-//            modifier = Modifier.weight(1f)
-//
-//        )
-//
-//        NavItem(
-//            title = "Journal",
-//            icon = R.drawable.journal,
-//            selected = selectedTab == "Journal",
-//            onSelected = { onTabSelected("Journal") },
-//            modifier = Modifier.weight(1f)
-//
-//        )
-//
-//        NavItem(
-//            title = "Mood Booster",
-//            icon = R.drawable.mood_booster, // Replace with actual rocket icon
-//            selected = selectedTab == "Mood Booster",
-//            onSelected = { onTabSelected("Mood Booster") },
-//            modifier = Modifier.weight(1f)
-//
-//        )
-//    }
-//
-//}
-
-//@Composable
-//fun NavItem(
-//    title: String,
-//    icon: Int,
-//    selected: Boolean,
-//    onSelected: () -> Unit,
-//    modifier: Modifier = Modifier
-//) {
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center,
-//        modifier = modifier
-//            .clickable { onSelected() }
-//            .padding(8.dp)
-//    ) {
-//        Icon(
-//            painter = painterResource(icon),
-//            contentDescription = title,
-//            tint = if (selected) Color.Black else Color.Gray,
-//            modifier = Modifier.size(24.dp)
-//        )
-//
-//        Text(
-//            text = title,
-//            fontSize = 12.sp,
-//            color = if (selected) Color.Black else Color.Gray,
-//            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
-//            textAlign = TextAlign.Center
-//        )
-//
-//        if (selected) {
-//            Box(
-//                modifier = Modifier
-//                    .padding(top = 4.dp)
-//                    .width(24.dp)
-//                    .height(2.dp)
-//                    .background(Color.Black)
-//            )
-//        }
-//    }
-//}
 
 @Composable
 fun TopBarText(text:String, modifier: Modifier) {

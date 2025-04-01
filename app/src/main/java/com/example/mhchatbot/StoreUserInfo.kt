@@ -36,8 +36,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -78,12 +81,22 @@ class UserPreferencesRepository(private val context: Context) {
 // 3. Create a ViewModel to use the repository
 class UserViewModel(private val repository: UserPreferencesRepository) : ViewModel() {
 
-    // Expose user name as StateFlow
-    val userName = repository.userName.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = ""
-    )
+
+    // Add a loading state
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    // Expose user name as StateFlow with loading handling
+    val userName = repository.userName
+        .onEach {
+            // When data is received, set loading to false
+            _isLoading.value = false
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = ""
+        )
 
     // Save user name
     fun saveUserName(name: String) {

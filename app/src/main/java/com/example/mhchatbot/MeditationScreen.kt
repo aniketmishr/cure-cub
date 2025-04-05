@@ -10,18 +10,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.mhchatbot.ui.theme.backgroundColor
 
 
 @Composable
 fun MeditationScreen() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottiemeditation))
-    Box(modifier = Modifier.background(Color(0xFFE6F4F7))) {
+    Box(modifier = Modifier.background(backgroundColor)) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -29,6 +29,7 @@ fun MeditationScreen() {
         ) {
             LottieAnimation(
                 composition,
+                speed = 0.3f,
                 iterations = LottieConstants.IterateForever,
                 modifier = Modifier
                     .size(400.dp)

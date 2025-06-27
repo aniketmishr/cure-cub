@@ -1,11 +1,12 @@
 <div align="center">
-  <img src="https://images2.imgbox.com/71/e4/A35k6vYv_o.png" alt="CureCub Logo" width="150">
+  <a href="https://imgbox.com/jAJKheoX" target="_blank"><img src="https://images2.imgbox.com/9f/4c/jAJKheoX_o.png" alt="CureCub Logo" width="150"></a>
   <h1>CureCub</h1>
-  <p>Your Mental Health Companion</p>
-  <p>
+  <div>
+    Your Mental Health Companion
+    <br>
     <a href="https://github.com/aniketmishr/cure-cub/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build Status"></a>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  </p>
+  </div>
 </div>
 
 ---
@@ -24,6 +25,8 @@ Some of the features CureCub provides are:
 * **🎮 Mood Booster Games:** Feeling down? Play one of our curated games designed to relax your mind and provide a gentle distraction.
 * **🎨 User-Friendly Interface:** A clean, intuitive, and calming UI designed to make your experience as smooth as possible.
 
+---
+
 ### 🚀 Getting Started
 
 To get a local copy up and running, follow these simple steps.
@@ -31,6 +34,7 @@ To get a local copy up and running, follow these simple steps.
 #### Prerequisites
 
 You will need the following software installed on your machine:
+
 * Android Studio
 * Gradle
 
@@ -44,19 +48,23 @@ You will need the following software installed on your machine:
 3.  Let Gradle sync and build the project. This may take a few minutes.
 4.  Run the app on an Android emulator or a physical device.
 
+---
+
 ### 🖼️ Screenshots
 
 <div align="center">
-    <img src="https://images2.imgbox.com/f0/a6/L8HErdu5_o.png" width="200" alt="Welcome Screen">&nbsp;&nbsp;
-    <img src="https://images2.imgbox.com/6c/3d/e9ckyHce_o.png" width="200" alt="Chat Interface">&nbsp;&nbsp;
-    <img src="https://images2.imgbox.com/18/4e/X6hoBLaY_o.png" width="200" alt="Self-Help Section">
+    <a href="https://imgbox.com/L8HErdu5" target="_blank"><img src="https://images2.imgbox.com/82/79/L8HErdu5_o.jpeg" width="200" alt="Welcome Screen"/></a>&nbsp;&nbsp;
+    <a href="https://imgbox.com/e9ckyHce" target="_blank"><img src="https://images2.imgbox.com/11/7d/e9ckyHce_o.jpeg" width="200" alt="Chat Interface"/></a>&nbsp;&nbsp;
+    <a href="https://imgbox.com/XyMjQet4" target="_blank"><img src="https://images2.imgbox.com/ed/8d/XyMjQet4_o.jpeg" width="200" alt="Chatbot"/></a>
     <br><br>
-    <img src="https://images2.imgbox.com/39/53/PTgoSvxI_o.png" width="200" alt="Relaxing Audios">&nbsp;&nbsp;
-    <img src="https://images2.imgbox.com/0c/83/NLnFFpWQ_o.png" width="200" alt="Journal">&nbsp;&nbsp;
-    <img src="https://images2.imgbox.com/6c/13/4wPL5Gdk_o.png" width="200" alt="Mind Booster Games">
+    <a href="https://imgbox.com/X6hoBLaY" target="_blank"><img src="https://images2.imgbox.com/1c/d3/X6hoBLaY_o.jpeg" width="200" alt="Self-Help Section"/></a>&nbsp;&nbsp;
+    <a href="https://imgbox.com/PTgoSvxI" target="_blank"><img src="https://images2.imgbox.com/be/c4/PTgoSvxI_o.jpeg" width="200" alt="Relaxing Audios"/></a>&nbsp;&nbsp;
+    <a href="https://imgbox.com/NLnFFpWQ" target="_blank"><img src="https://images2.imgbox.com/1b/cc/NLnFFpWQ_o.jpeg" width="200" alt="Journal"/></a>
      <br><br>
-    <img src="https://images2.imgbox.com/e8/30/0FTwGWZX_o.png" width="200" alt="App Menu">
+    <a href="https://imgbox.com/4wPL5Gdk" target="_blank"><img src="https://images2.imgbox.com/7d/3e/4wPL5Gdk_o.jpeg" width="200" alt="Mind Booster Games"/></a>
 </div>
+
+---
 
 ### 🤝 Contributing
 
@@ -71,13 +79,18 @@ Don't forget to give the project a star! Thanks again!
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
 
+---
+
 ### 📜 License
 
 This project is distributed under the MIT License. See the `LICENSE` file for more information.
 
+---
+
 ### 🧑‍💻 Our Team
 
 This project was brought to life by **Team Egnite Elites**:
+
 * **Aniket Mishra** - [@aniketmishr](https://github.com/aniketmishr)
 * **Anup Narayan** - [@DarkCoder03](https://github.com/DarkCoder03)
 * **Atul Kumar** - [@Mujin0001](https://github.com/Mujin0001)

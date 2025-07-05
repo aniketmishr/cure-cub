@@ -25,6 +25,8 @@ Some of the features CureCub provides are:
 * **🎮 Mood Booster Games:** Feeling down? Play one of our curated games designed to relax your mind and provide a gentle distraction.
 * **🎨 User-Friendly Interface:** A clean, intuitive, and calming UI designed to make your experience as smooth as possible.
 
+[![Download](https://img.shields.io/github/v/release/aniketmishr/cure-cub?label=Download%20Latest&style=for-the-badge&logo=android)](https://github.com/aniketmishr/cure-cub/releases/latest)
+
 ---
 
 ### 🚀 Getting Started

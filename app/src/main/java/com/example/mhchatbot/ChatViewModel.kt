@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.launch
 
@@ -19,11 +20,6 @@ Category 1:
 Those who are mildly depressed, those person who shows very less signature of a depressed person. 
 Chat more with category 1 person, try to motivate them and make them happy. 
 After having enough chat with them (decide it yourself) , take them to the music therapy. To take them to music therapy , simply output this token: |music|
-Category 1: 
-Those who are mildly depressed, those person who shows very less signature of a depressed person. 
-Chat more with category 1 person, try to motivate them and make them happy. 
-After having enough chat with them (decide it yourself) , take them to the music therapy. To take them to music therapy , simply output this token: |music| , and end the chat.
-
 Category 2: 
 Those who are intermediately depressed. 
 Chat more with category 2 person, try to motivate them and make them happy, suggest them excercises like yoga etc, suggest some good books and articles to read. 
@@ -77,9 +73,15 @@ class ChatViewModel(private val userName: String): ViewModel() {
 
             messageList.add(MessageModel(question, role = "user"))
             messageList.add(MessageModel("Thinking...", "model"))
-            val response = chat.sendMessage(question)
+            var response: String
+            try {
+                response = chat.sendMessage(question).text.toString()
+            } catch (e:Exception) {
+                response = "Network Error"
+            }
+
             messageList.removeAt(messageList.lastIndex)
-            messageList.add(MessageModel(response.text.toString(), role = "model"))
+            messageList.add(MessageModel(response.toString(), role = "model"))
 
         }
     }

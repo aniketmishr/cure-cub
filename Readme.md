@@ -42,7 +42,7 @@ You will need the following software installed on your machine:
 
 1.  Clone the repo
     ```sh
-    git clone [https://github.com/aniketmishr/cure-cub.git](https://github.com/aniketmishr/cure-cub.git)
+    git clone https://github.com/aniketmishr/cure-cub.git
     ```
 2.  Open the project in Android Studio.
 3.  Let Gradle sync and build the project. This may take a few minutes.

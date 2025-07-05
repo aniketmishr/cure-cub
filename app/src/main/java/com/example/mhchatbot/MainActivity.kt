@@ -244,7 +244,10 @@ fun NavigationDrawerContent() {
                 }
 
                 Text(text = "Check for Updates", fontSize = 16.sp, color = Color(0xFF2699F5),
-                    modifier = Modifier.clickable { })
+                    modifier = Modifier.clickable {
+                        sharedScreenViewModel.openBrowser(context,"https://github.com/aniketmishr/cure-cub/releases/latest")
+
+                    })
 
                 Spacer(modifier = Modifier.height(10.dp))
                 HorizontalDivider(thickness = 2.dp)
@@ -303,7 +306,7 @@ fun NavigationDrawerContent() {
                         unselectedContainerColor = Color.Transparent // Background color when not selected
                     ),
                     onClick = {
-                                            sharedScreenViewModel.shareApp(context, "https://github.com/aniketmishr/connect-app?tab=readme-ov-file#installation")
+                                            sharedScreenViewModel.shareApp(context, "https://github.com/aniketmishr/cure-cub")
                     }, icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.share),

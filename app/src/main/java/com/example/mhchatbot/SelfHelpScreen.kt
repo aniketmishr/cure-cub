@@ -58,7 +58,7 @@ fun SelfHelpScreen(navController: NavController) {
                 // Videos card
                 CategoryCard(
                     title = "Videos",
-                    description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
+                    description = "Let each frame bring stillness. Slow down, breathe deeply, and reconnect as calming visuals and sounds restore your inner peace.",
                     backgroundColor = Color(0xFF90e0ef),
                     contentColor = Color(0xFF2E4F4F),
                     modifier = Modifier.weight(1f),
@@ -75,7 +75,7 @@ fun SelfHelpScreen(navController: NavController) {
                 // Articles card
                 CategoryCard(
                     title = "Articles",
-                    description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
+                    description = "Discover clarity one word at a time. Let thoughtful insights guide your journey inward, offering gentle wisdom for a more balanced mind.\n",
                     backgroundColor = Color(0xFF07C4EC),
                     contentColor = Color.White,
                     modifier = Modifier.weight(1f),
@@ -85,7 +85,7 @@ fun SelfHelpScreen(navController: NavController) {
                 // Podcast card
                 CategoryCard(
                     title = "Meditation",
-                    description = "Release the day's weight with every falling drop. Let the rain cleanse your mind and spirit. Find comfort in nature's calming melody.",
+                    description = "Return to yourself. In stillness, find strength. Let each breath be an anchor as you create space for healing and presence.",
                     backgroundColor = Color(0xFFcaf0f8),
                     contentColor = Color(0xFF2E4F4F),
                     modifier = Modifier.weight(1f),

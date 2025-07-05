@@ -62,10 +62,8 @@ data class JournalEntry constructor(
 fun JournalScreen() {
     // In-memory storage for journal entries (will be destroyed when app is closed)
     val entries = remember { mutableStateListOf<JournalEntry>(
-        JournalEntry(1, LocalDate.of(2025, 2, 27),
-            "I Was feeling really down, but after watching some videos and chatting, I felt so much better."),
-        JournalEntry(2, LocalDate.of(2025, 2, 28),
-            "I Was feeling really good, after watching some videos and chatting to curecub, I felt so much better.")
+        JournalEntry(1, LocalDate.now(),
+            "Welcome to CureCub!! Start here. This is your space to breathe, reflect, and begin feeling better—one thought at a time."),
     ) }
 
     var nextId = remember { mutableStateOf(3) }

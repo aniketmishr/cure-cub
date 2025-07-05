@@ -45,7 +45,7 @@ fun MindBoosterScreen() {
             item {
                 // Header text
                 Text(
-                    text = "Mind Booster  Feeling down or stressed? Our Mind Booster games, curated by our team, are here to help you relax and recharge. Explore a variety of fun and engaging games designed to release stress and ease anxiety. Take a break and give your mind the boost it deserves.",
+                    text = "Mind Booster  Feeling down or stressed? Mind Booster games, curated by our team, are here to help you relax and recharge. Explore a variety of fun and engaging games designed to release stress and ease anxiety. Take a break and give your mind the boost it deserves.",
                     fontSize = 16.sp,
                     color = Color(0xFF2E4F4F),
                     lineHeight = 22.sp,
